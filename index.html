@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Playground</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<style>
+  <!-- disable scroll --->
+  html, body {margin: 0; height: 100%; overflow: hidden}
+  .grid {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(3, 150px);
+    grid-template-rows: repeat(3, 150px);
+    padding: 20px;
+    background-color: none;
+    
+  }
+  div {
+    background: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  button {background-color:gray; border-radius: 30px;}
+  main {display:flex; justify-content: center; flex-direction: column;}
+</style>
+
+
+<body>
+
+  <main>
+    <h1 style="text-align:center;">Treasure hunt game</h1>
+    <h2 style="text-align:center;" id = "chat">Try to find treasure</h2>
+    <div style="display:flex; flex-direction: column; justify-content: center; ">
+    <section id="grid" class="grid">
+
+    </section>
+    <button style="background: green; width: 200px; height:40px;" id="play">Play</button>
+    </div>
+
+  </main>
+  <script>console.log("hello index");
+    let treasure = Math.floor(Math.random()*9);
+    let text = treasure.toString();
+    <!-- play the game button --->
+    document.getElementById("play").onclick = function() {treasure = Math.floor(Math.random()*9);
+    text = treasure.toString(); document.querySelectorAll('button').forEach(button => {if (button.id !== "play") {button.style.backgroundColor = 'gray'; button.disabled = false;}}); return text=text;};
+
+
+    console.log(treasure);
+    console.log(text);
+    <!-- button generator --->
+    for (let i = 0; i < 9; i++) {let div = document.createElement("button"); div.id = i; div.class = "button"; document.getElementById("grid").appendChild(div)};
+    <!-- button clicker dectector --->
+    document.getElementById("grid").addEventListener("click", findid);
+    function findid(event) {let buttonid = event.target.id; console.log(event.target.id); if (buttonid !== "grid") { changebutton(buttonid)}};
+    <!-- make button red --->
+    var chat = document.getElementById("chat")
+    // changes buttons color and disables them if treasure is found, when pressed play, it reenables the buttons
+    function changebutton(buttonid) {let button = document.getElementById(buttonid);if (text === buttonid) {button.style.background = "green"; chat.innerText = "You found the treasure"; chat.style.color = "green"; let audioElement = new Audio("correct.mp3"); audioElement.play(); document.querySelectorAll('button').forEach(button => {if (button.id !== "play") {button.disabled = true;}});} else {button.style.background = "red"; chat.innerText = "Try again"; chat.style.color = "red";const audioElement = new Audio("wrong.mp3");audioElement.play();}};
+    
+  
+  </script>
+</body>
